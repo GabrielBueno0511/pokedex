@@ -1,22 +1,11 @@
 <template>
   <div class="border-2 red">
     <template>
-      <v-card :loading="loading" class="mx-auto my-12 border-12" max-width="374">
-        <template slot="progress">
-          <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
-        </template>
-
-        <v-img height="250" src="https://imgs.search.brave.com/jcoP18B7fiVVXXHz-f12SRyl0J65UxFl6xWaveDqcpI/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5z/ZHJ5a29sUXJZRjU0/TXEtTFRPc3ZBSGFF/SyZwaWQ9QXBp"></v-img>
+      <h1  class="text-center mt-8 font-bold text-7xl">Capturar Pokemon</h1>
+      <v-card :loading="loading" class="mx-auto my-4 border-12" max-width="374">
+          <img :src=image alt=""  height="600" srcset="" class="justify-center">
 
         <v-card-title> Nome: {{ nomePokemon }}</v-card-title>
-
-        <v-card-text>
-
-          <div class="my-4 text-subtitle-1">
-            Tipo: {{ tipoPokemon }}
-          </div>
-
-        </v-card-text>
 
         <v-divider class="mx-4"></v-divider>
 
@@ -39,7 +28,7 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-      
+
     </template>
   </div>
 </template>
@@ -53,7 +42,11 @@ export default {
   data: () => ({
     loading: false,
     selection: 1,
-    namePokemon: ''
+    nomePokemon: '',
+    habilidade1: '',
+    habilidade2: '',
+    habilidade3: '',
+    image: ''
   }),
 
   methods: {
@@ -68,12 +61,16 @@ export default {
 
       axios.get("https://pokeapi.co/api/v2/pokemon/" + pokemon)
         .then(response => {
-                    console.log(response.data);
-                  }
-                  )
-                  .catch((error) => {
-                      console.log(error);
-                  });
+          this.nomePokemon = response.data.name;
+          this.habilidade1 = response.data.abilities[0].ability.name;
+          this.habilidade2 = response.data.abilities[1].ability.name;
+          this.habilidade3 = response.data.abilities[2].ability.name;
+          this.image = response.data.sprites.front_default;
+        }
+        )
+        .catch((error) => {
+          console.log(error);
+        });
     }
   },
 }
